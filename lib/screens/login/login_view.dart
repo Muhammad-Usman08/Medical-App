@@ -51,7 +51,7 @@ class LoginScreen extends StatelessWidget {
               style: TextStyle(color: Colors.grey[500]),
             )),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 60),
+          margin: const EdgeInsets.symmetric(horizontal: 50),
           child: TextField(
             controller: numberController,
             decoration: const InputDecoration(
