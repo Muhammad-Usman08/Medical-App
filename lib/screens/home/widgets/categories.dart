@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Widget categories(Color color, String text) {
   return (Container(
-    width: 90,
+    width: 80,
     height: 150,
     padding: const EdgeInsets.only(top: 10),
     decoration: BoxDecoration(boxShadow: [
@@ -15,7 +15,7 @@ Widget categories(Color color, String text) {
     child: Column(
       children: [
         CircleAvatar(
-          radius: 35,
+          radius: 30,
           backgroundColor: color,
         ),
         Container(
