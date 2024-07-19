@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/components/button.dart';
+import 'package:medicalapp/screens/home/home.dart';
 
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
@@ -68,6 +69,11 @@ class LoginScreen extends StatelessWidget {
           child: MyButton(
             buttonText: 'CONTINUE',
             onpressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomeScreen(),
+                  ));
               numberController.clear();
               // ignore: avoid_print
               print(numberController.text);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/components/heading.dart';
 import 'package:medicalapp/screens/home/widgets/categories.dart';
+import 'package:medicalapp/screens/product/product_details.dart';
 import '../list.dart';
 
 // ignore: must_be_immutable
@@ -198,68 +199,77 @@ class HomeView extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: items.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    height: 1000,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 7,
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(17),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 8),
-                          decoration: BoxDecoration(
-                            color: const Color(0xffeeeef0),
-                            borderRadius: BorderRadius.circular(17),
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) =>  ProductDetalis(index: index,))));
+                    },
+                    child: Container(
+                      height: 1000,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            spreadRadius: 2,
+                            blurRadius: 7,
                           ),
-                          height: MediaQuery.sizeOf(context).height * 0.17,
-                          width: MediaQuery.sizeOf(context).width * 0.45,
-                          child: Image.asset(
-                            items[index]['productimage'],
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  items[index]['1stline'],
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  items[index]['2ndline'],
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  items[index]['productPrice'],
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
+                        ],
+                        borderRadius: BorderRadius.circular(17),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 8),
+                            decoration: BoxDecoration(
+                              color: const Color(0xffeeeef0),
+                              borderRadius: BorderRadius.circular(17),
+                            ),
+                            height: MediaQuery.sizeOf(context).height * 0.17,
+                            width: MediaQuery.sizeOf(context).width * 0.45,
+                            child: Image.asset(
+                              items[index]['productimage'],
                             ),
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    items[index]['1stline'],
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    items[index]['2ndline'],
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    items[index]['productPrice'],
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
