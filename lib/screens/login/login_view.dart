@@ -52,7 +52,7 @@ class LoginScreen extends StatelessWidget {
               style: TextStyle(color: Colors.grey[500]),
             )),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 50),
+          margin: const EdgeInsets.symmetric(horizontal: 40),
           child: TextField(
             controller: numberController,
             decoration: const InputDecoration(
@@ -69,12 +69,13 @@ class LoginScreen extends StatelessWidget {
           child: MyButton(
             buttonText: 'CONTINUE',
             onpressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
-                  ));
-              numberController.clear();
+              if (numberController.text != '') {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
+                    ));
+              } else {}
               // ignore: avoid_print
               print(numberController.text);
             },

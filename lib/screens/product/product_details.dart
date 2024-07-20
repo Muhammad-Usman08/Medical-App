@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/components/button.dart';
 import 'package:medicalapp/components/heading.dart';
+import 'package:medicalapp/screens/cart/cart_view.dart';
 import 'package:medicalapp/screens/list.dart';
 import 'package:medicalapp/screens/product/widgets/text.dart';
 
 class ProductDetalis extends StatelessWidget {
   final dynamic index;
-  const ProductDetalis({super.key, required this.index});
+  const ProductDetalis({super.key, this.index});
+
+  addItems() {
+    selectedItems.add({
+      'productImage': '${items[index]['productimage']}',
+      'productPrice': '${items[index]['productPrice']}',
+      'productName': '${items[index]['1stline']}',
+      'productDescription': '${items[index]['2ndline']}',
+    });
+    print(selectedItems);
+  }
 
   @override
   Widget build(BuildContext context) {
-    print(index);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -23,7 +33,13 @@ class ProductDetalis extends StatelessWidget {
           Container(
               margin: const EdgeInsets.only(right: 25),
               child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CartScreen(),
+                        ));
+                  },
                   icon: const Icon(
                     Icons.shopping_bag_outlined,
                     size: 25,
@@ -36,13 +52,14 @@ class ProductDetalis extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Sugar Free Gold Low Calories',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+              Text(
+                items[index]['1stline'],
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
               ),
               Container(
                   margin: const EdgeInsets.only(top: 5, bottom: 20),
-                  child: myText('Etiam mollis metus non purus ')),
+                  child: myText(items[index]['2ndline'])),
               Container(
                 width: MediaQuery.sizeOf(context).width * 0.95,
                 height: MediaQuery.sizeOf(context).height * 0.2,
@@ -60,7 +77,7 @@ class ProductDetalis extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          items[index]['productPrice'],
+                          'Rs.${items[index]['productPrice'].toString()}',
                           style: const TextStyle(
                               fontSize: 19, fontWeight: FontWeight.w600),
                         ),
@@ -72,7 +89,9 @@ class ProductDetalis extends StatelessWidget {
                       ],
                     ),
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          addItems();
+                        },
                         child: const Text(
                           '+ Add to cart',
                           style: TextStyle(
@@ -148,8 +167,18 @@ class ProductDetalis extends StatelessWidget {
               ),
               Container(
                   margin: const EdgeInsets.only(bottom: 35),
-                  child:
-                      const Center(child: MyButton(buttonText: 'GO TO CART')))
+                  child: Center(
+                    child: MyButton(
+                      buttonText: 'GO TO CART',
+                      onpressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CartScreen(),
+                            ));
+                      },
+                    ),
+                  ))
             ],
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/components/heading.dart';
+import 'package:medicalapp/screens/cart/cart_view.dart';
 import 'package:medicalapp/screens/home/widgets/categories.dart';
 import 'package:medicalapp/screens/product/product_details.dart';
 import '../list.dart';
@@ -50,7 +51,14 @@ class HomeView extends StatelessWidget {
                                       color: Colors.white,
                                     )),
                                 IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const CartScreen(),
+                                          ));
+                                    },
                                     icon: const Icon(
                                       Icons.shopping_bag_outlined,
                                       color: Colors.white,
@@ -204,7 +212,9 @@ class HomeView extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: ((context) =>  ProductDetalis(index: index,))));
+                              builder: ((context) => ProductDetalis(
+                                    index: index,
+                                  ))));
                     },
                     child: Container(
                       height: 1000,
@@ -258,7 +268,7 @@ class HomeView extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 10),
                                   Text(
-                                    items[index]['productPrice'],
+                                    'Rs.${items[index]['productPrice'].toString()}',
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
