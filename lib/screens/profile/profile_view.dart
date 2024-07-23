@@ -8,16 +8,17 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title:const Text('Profile' , style: TextStyle(fontWeight: FontWeight.w600),),
+      ),
       body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //header
-            const Heading(heading: 'My Profile'),
             //profile Section
             Container(
-              margin: const EdgeInsets.only(top: 40, bottom: 30),
+              margin: const EdgeInsets.only(top: 20, bottom: 30),
               child: Row(
                 children: [
                   Container(

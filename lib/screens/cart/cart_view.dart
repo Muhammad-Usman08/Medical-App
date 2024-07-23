@@ -16,9 +16,9 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   //total function
   calculateTotalPrice() {
-    double totalPrice = 0;
+    int totalPrice = 0;
     for (var item in selectedItems) {
-      double price = double.parse(item['productPrice']);
+      int price = int.parse(item['productPrice']);
       totalPrice += price;
     }
     return totalPrice;
@@ -26,9 +26,9 @@ class _CartScreenState extends State<CartScreen> {
 
   //subtotal
   subTotal() {
-    double totalPrice = 0;
+    int totalPrice = 0;
     for (var i in selectedItems) {
-      double price = double.parse(i['productPrice']);
+      int price = int.parse(i['productPrice']);
       totalPrice += price;
     }
     if (totalPrice != 0) {
@@ -44,6 +44,12 @@ class _CartScreenState extends State<CartScreen> {
     setState(() {});
   }
 
+  //delete All
+  deleteAll() {
+    selectedItems.clear();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     var totalPrice = calculateTotalPrice();
@@ -52,6 +58,21 @@ class _CartScreenState extends State<CartScreen> {
       // Appbar
       appBar: AppBar(
         title: const Heading(heading: 'Your Cart'),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
+                    ));
+              },
+              child: Text(
+                '+ Add more',
+                style: TextStyle(
+                    fontWeight: FontWeight.w600, color: Colors.blue[800]),
+              ))
+        ],
       ),
       // Body
       body: Container(
@@ -70,13 +91,10 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => const HomeScreen())));
+                      deleteAll();
                     },
                     child: const Text(
-                      '+ Add more',
+                      'Delete All',
                       style: TextStyle(
                           fontSize: 16,
                           color: Color(0xff4157FF),
@@ -176,7 +194,7 @@ class _CartScreenState extends State<CartScreen> {
               children: [
                 const Heading(heading: 'Total'),
                 Text(
-                  total.toString(),
+                  'Rs.${total.toString()}',
                   style: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.w600),
                 )
