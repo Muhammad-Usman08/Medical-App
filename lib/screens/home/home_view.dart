@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/components/heading.dart';
 import 'package:medicalapp/screens/cart/cart_view.dart';
+import 'package:medicalapp/screens/favourite/favourite.dart';
 import 'package:medicalapp/screens/home/widgets/categories.dart';
 import 'package:medicalapp/screens/product/product_details.dart';
 import '../list.dart';
@@ -45,7 +46,9 @@ class HomeView extends StatelessWidget {
                             Row(
                               children: [
                                 IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: ((context) => const Faviourite() )));
+                                    },
                                     icon: const Icon(
                                       Icons.notifications_none,
                                       color: Colors.white,
@@ -103,6 +106,7 @@ class HomeView extends StatelessWidget {
                         ],
                       ),
                       width: MediaQuery.sizeOf(context).width * 0.9,
+                      height: 55,
                       child: TextField(
                         decoration: InputDecoration(
                           hintText: 'Search Medicine & Healthcare products',
@@ -134,14 +138,21 @@ class HomeView extends StatelessWidget {
               child: const Heading(heading: 'Top Categories'),
             ),
             // categories
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                categories(const Color(0xffFF9598), 'Dental'),
-                categories(const Color(0xff19E5A5), 'Wellness'),
-                categories(const Color(0xffFFC06F), 'Homeo'),
-                categories(const Color(0xff4DB7FF), 'Eye care'),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  categories(const Color(0xffFF9598), 'Dental'),
+                  categories(const Color(0xff19E5A5), 'Wellness'),
+                  categories(const Color(0xffFFC06F), 'Homeo'),
+                  categories(const Color(0xff4DB7FF), 'Eye care'),
+                  categories(const Color(0xffFF9598), 'Dental'),
+                  categories(const Color(0xff19E5A5), 'Wellness'),
+                  categories(const Color(0xffFFC06F), 'Homeo'),
+                  categories(const Color(0xff4DB7FF), 'Eye care'),
+                ],
+              ),
             ),
 
             // Banner

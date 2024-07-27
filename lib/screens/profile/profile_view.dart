@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medicalapp/components/heading.dart';
 import 'package:medicalapp/screens/profile/widgets/profileoptions.dart';
 
 class ProfileScreen extends StatelessWidget {

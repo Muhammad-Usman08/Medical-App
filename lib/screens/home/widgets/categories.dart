@@ -4,6 +4,7 @@ Widget categories(Color color, String text) {
   return (Container(
     width: 80,
     height: 150,
+    margin: const EdgeInsets.only(left: 5, right: 5),
     padding: const EdgeInsets.only(top: 10),
     decoration: BoxDecoration(boxShadow: [
       BoxShadow(

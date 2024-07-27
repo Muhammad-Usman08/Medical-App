@@ -2,21 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:medicalapp/components/button.dart';
 import 'package:medicalapp/components/heading.dart';
 import 'package:medicalapp/screens/cart/cart_view.dart';
+import 'package:medicalapp/screens/favourite/favourite.dart';
 import 'package:medicalapp/screens/list.dart';
 import 'package:medicalapp/screens/product/widgets/text.dart';
 
-class ProductDetalis extends StatelessWidget {
+class ProductDetalis extends StatefulWidget {
   final dynamic index;
   const ProductDetalis({super.key, this.index});
 
+  @override
+  State<ProductDetalis> createState() => _ProductDetalisState();
+}
+
+class _ProductDetalisState extends State<ProductDetalis> {
+  //Add items
   addItems() {
     selectedItems.add({
-      'productImage': '${items[index]['productimage']}',
-      'productPrice': '${items[index]['productPrice']}',
-      'productName': '${items[index]['1stline']}',
-      'productDescription': '${items[index]['2ndline']}',
+      'productImage': '${items[widget.index]['productimage']}',
+      'productPrice': '${items[widget.index]['productPrice']}',
+      'productName': '${items[widget.index]['1stline']}',
+      'productDescription': '${items[widget.index]['2ndline']}',
     });
-    print(selectedItems);
+  }
+
+  addFavItems() async {
+    if (items[widget.index]['isFav'] == true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      setState(() {
+        items[widget.index]['isFav'] = false;
+        favouriteItems.removeWhere((item) =>
+            item['productImage'] == items[widget.index]['productimage']);
+      });
+    } else {
+      setState(() {
+        items[widget.index]['isFav'] = true;
+        favouriteItems.add({
+          'productImage': '${items[widget.index]['productimage']}',
+          'productPrice': '${items[widget.index]['productPrice']}',
+          'productName': '${items[widget.index]['1stline']}',
+          'productDescription': '${items[widget.index]['2ndline']}',
+        });
+      });
+    }
+
+    print(favouriteItems);
   }
 
   @override
@@ -25,11 +54,21 @@ class ProductDetalis extends StatelessWidget {
       appBar: AppBar(
         actions: [
           Container(
-              margin: const EdgeInsets.only(right: 10),
-              child: const Icon(
+            margin: const EdgeInsets.only(right: 10),
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Faviourite(),
+                    ));
+              },
+              icon: const Icon(
                 Icons.notifications_none,
                 size: 26,
-              )),
+              ),
+            ),
+          ),
           Container(
               margin: const EdgeInsets.only(right: 25),
               child: IconButton(
@@ -52,21 +91,35 @@ class ProductDetalis extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                items[index]['1stline'],
-                style:
-                    const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    items[widget.index]['1stline'],
+                    style: const TextStyle(
+                        fontSize: 22, fontWeight: FontWeight.w600),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        addFavItems();
+                      },
+                      icon: Icon(Icons.favorite,
+                          color: items[widget.index]['isFav'] == true
+                              ? Colors.red
+                              : Colors.grey)),
+                ],
               ),
+
               Container(
                   margin: const EdgeInsets.only(top: 5, bottom: 20),
-                  child: myText(items[index]['2ndline'])),
+                  child: myText(items[widget.index]['2ndline'])),
               Container(
                 width: MediaQuery.sizeOf(context).width * 0.95,
                 height: MediaQuery.sizeOf(context).height * 0.2,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.grey[200]),
-                child: Image.asset(items[index]['productimage']),
+                child: Image.asset(items[widget.index]['productimage']),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 20, bottom: 10),
@@ -77,12 +130,12 @@ class ProductDetalis extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Rs.${items[index]['productPrice'].toString()}',
+                          'Rs.${items[widget.index]['productPrice'].toString()}',
                           style: const TextStyle(
                               fontSize: 19, fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          items[index]['2ndline'],
+                          items[widget.index]['2ndline'],
                           style:
                               TextStyle(fontSize: 15, color: Colors.grey[600]),
                         ),
