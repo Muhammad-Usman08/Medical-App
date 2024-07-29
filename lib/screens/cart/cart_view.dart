@@ -14,30 +14,6 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  //total function
-  calculateTotalPrice() {
-    int totalPrice = 0;
-    for (var item in selectedItems) {
-      int price = int.parse(item['productPrice']);
-      totalPrice += price;
-    }
-    return totalPrice;
-  }
-
-  //subtotal
-  subTotal() {
-    int totalPrice = 0;
-    for (var i in selectedItems) {
-      int price = int.parse(i['productPrice']);
-      totalPrice += price;
-    }
-    if (totalPrice != 0) {
-      return totalPrice - 20;
-    } else {
-      return totalPrice;
-    }
-  }
-
   //delete item
   deleteItem(index) {
     selectedItems.removeAt(index);
@@ -48,6 +24,45 @@ class _CartScreenState extends State<CartScreen> {
   deleteAll() {
     selectedItems.clear();
     setState(() {});
+  }
+
+  //total function
+  calculateTotalPrice() {
+    int totalPrice = 0;
+    for (var item in selectedItems) {
+      int price = int.parse(item['productPrice']);
+      int quantity = item['quantity'];
+      totalPrice += price * quantity;
+    }
+    return totalPrice;
+  }
+
+  //subtotal
+  subTotal() {
+    int totalPrice = calculateTotalPrice();
+    if (totalPrice != 0) {
+      return totalPrice - 20;
+    } else {
+      return totalPrice;
+    }
+  }
+
+  // Increase quantity of item
+  addItems(index) {
+    setState(() {
+      selectedItems[index]['quantity']++;
+    });
+  }
+
+  // decrease quantity of item
+  removeItems(index) {
+    setState(() {
+      if (selectedItems[index]['quantity'] != 0) {
+        selectedItems[index]['quantity']--;
+      } else if (selectedItems[index]['quantity'] == 0) {
+        selectedItems.removeAt(index);
+      }
+    });
   }
 
   @override
@@ -117,8 +132,8 @@ class _CartScreenState extends State<CartScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              width: MediaQuery.sizeOf(context).width * 0.22,
-                              height: 100,
+                              width: MediaQuery.of(context).size.width * 0.20,
+                              height: 90,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 color: Colors.grey[300],
@@ -126,39 +141,87 @@ class _CartScreenState extends State<CartScreen> {
                               child: Image.asset(
                                   selectedItems[index]['productImage']),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  selectedItems[index]['productName'],
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 15),
-                                ),
-                                Text(
-                                  selectedItems[index]['productDescription'],
-                                  style: const TextStyle(
-                                      fontSize: 13, color: Colors.grey),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(top: 10),
-                                  child: Text(
-                                    'Rs.${selectedItems[index]['productPrice'].toString()}',
+                            Container(
+                              margin: const EdgeInsets.only(left: 5),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    selectedItems[index]['productName'],
                                     style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15),
+                                  ),
+                                  Text(
+                                    selectedItems[index]['productDescription'],
+                                    style: const TextStyle(
+                                        fontSize: 13, color: Colors.grey),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 10),
+                                    child: Text(
+                                      'Rs.${selectedItems[index]['productPrice'].toString()}',
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    deleteItem(index);
+                                  },
+                                  icon: Icon(
+                                    Icons.cancel_outlined,
+                                    color: Colors.grey[500],
                                   ),
                                 ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue[600],
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          addItems(index);
+                                        },
+                                        child: const Text(
+                                          '+',
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                      ),
+                                      Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 13),
+                                          child: Text(
+                                            selectedItems[index]['quantity']
+                                                .toString(),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.white),
+                                          )),
+                                      GestureDetector(
+                                        onTap: () {
+                                          removeItems(index);
+                                        },
+                                        child: const Text(
+                                          '-',
+                                          style: TextStyle(fontSize: 40),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
                               ],
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                deleteItem(index);
-                              },
-                              icon: Icon(
-                                Icons.cancel_outlined,
-                                color: Colors.grey[500],
-                              ),
                             ),
                           ],
                         ),
@@ -175,6 +238,7 @@ class _CartScreenState extends State<CartScreen> {
                 },
               ),
             ),
+
             Container(
                 margin: const EdgeInsets.only(top: 15),
                 child: const Heading(heading: 'Payment Summary')),

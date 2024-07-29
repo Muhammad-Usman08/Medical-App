@@ -16,18 +16,20 @@ class ProductDetalis extends StatefulWidget {
 
 class _ProductDetalisState extends State<ProductDetalis> {
   //Add items
-  addItems() {
+  addItems() async {
     selectedItems.add({
       'productImage': '${items[widget.index]['productimage']}',
       'productPrice': '${items[widget.index]['productPrice']}',
       'productName': '${items[widget.index]['1stline']}',
       'productDescription': '${items[widget.index]['2ndline']}',
+      'quantity': 1,
     });
+
   }
 
   addFavItems() async {
     if (items[widget.index]['isFav'] == true) {
-      await Future.delayed(Duration(milliseconds: 50));
+      await Future.delayed(const Duration(milliseconds: 50));
       setState(() {
         items[widget.index]['isFav'] = false;
         favouriteItems.removeWhere((item) =>
@@ -44,8 +46,6 @@ class _ProductDetalisState extends State<ProductDetalis> {
         });
       });
     }
-
-    print(favouriteItems);
   }
 
   @override
@@ -227,7 +227,7 @@ class _ProductDetalisState extends State<ProductDetalis> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CartScreen(),
+                              builder: (context) => const CartScreen(),
                             ));
                       },
                     ),
