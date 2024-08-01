@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medicalapp/components/button.dart';
+import 'package:medicalapp/screens/home/home.dart';
 import 'package:medicalapp/screens/login/login_view.dart';
 // import 'package:medicalapp/screens/home/home.dart';
 
@@ -12,7 +13,7 @@ class SignUpScreen extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  signUp() async {
+  signUp(context) async {
     try {
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -20,6 +21,8 @@ class SignUpScreen extends StatelessWidget {
         password: passwordController.text,
       );
       print(credential);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: ((context) => const HomeScreen())));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -106,7 +109,7 @@ class SignUpScreen extends StatelessWidget {
               child: MyButton(
                 buttonText: 'Sign Up',
                 onpressed: () {
-                  signUp();
+                  signUp(context);
                 },
               ),
             ),

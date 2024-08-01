@@ -4,9 +4,15 @@ import 'package:medicalapp/firebase_options.dart';
 import 'package:medicalapp/screens/splash/splash_screen.dart';
 
 void main() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    print('Firebase initializing Error : $e');
+  }
+
   runApp(const MyApp());
 }
 

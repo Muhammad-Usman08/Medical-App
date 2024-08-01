@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medicalapp/components/button.dart';
 import 'package:medicalapp/components/heading.dart';
 import 'package:medicalapp/screens/cart/widgets/charges.dart';
+import 'package:medicalapp/screens/checkout/checkout_view.dart';
 import 'package:medicalapp/screens/home/home.dart';
 import 'package:medicalapp/screens/list.dart';
 
@@ -266,7 +267,17 @@ class _CartScreenState extends State<CartScreen> {
             ),
             Container(
                 margin: const EdgeInsets.only(top: 25),
-                child: const Center(child: MyButton(buttonText: 'Place Order')))
+                child: Center(
+                    child: MyButton(
+                        onpressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) =>
+                                      const CheckOutScreen())));
+                          selectedItems.clear();
+                        },
+                        buttonText: 'Place Order')))
           ],
         ),
       ),

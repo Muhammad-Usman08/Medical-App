@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   TextEditingController passwordController = TextEditingController();
 
-  login() async {
+  login(context) async {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: MyButton(
                 buttonText: 'Login',
                 onpressed: () {
-                  login();
+                  login(context);
                 },
               ),
             )
