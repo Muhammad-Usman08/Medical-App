@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:medicalapp/components/button.dart';
 import 'package:medicalapp/components/heading.dart';
@@ -64,6 +65,33 @@ class _CartScreenState extends State<CartScreen> {
         selectedItems.removeAt(index);
       }
     });
+  }
+
+  //add items to firestore database
+  addItemsToDatabase(total) {
+    CollectionReference itemsCollection =
+        FirebaseFirestore.instance.collection('items');
+
+    List allItems = [];
+
+    for (var item in selectedItems) {
+      allItems.add({
+        'itemName': item['productName'],
+        'quantity': item['quantity'],
+        'total': item['productPrice'] * item['quantity'],
+      });
+    }
+
+    itemsCollection
+        .add({
+          'items': allItems,
+          'total': total,
+        })
+        .then((value) => Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const CheckOutScreen())))
+        .catchError((error) {
+          print(error);
+        });
   }
 
   @override
@@ -270,12 +298,9 @@ class _CartScreenState extends State<CartScreen> {
                 child: Center(
                     child: MyButton(
                         onpressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: ((context) =>
-                                      const CheckOutScreen())));
-                          selectedItems.clear();
+                          addItemsToDatabase(
+                            total,
+                          );
                         },
                         buttonText: 'Place Order')))
           ],

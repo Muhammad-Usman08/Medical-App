@@ -47,7 +47,11 @@ class HomeView extends StatelessWidget {
                               children: [
                                 IconButton(
                                     onPressed: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: ((context) => const Faviourite() )));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  const Faviourite())));
                                     },
                                     icon: const Icon(
                                       Icons.notifications_none,
